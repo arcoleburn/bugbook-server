@@ -4,6 +4,9 @@ const supertest = require('supertest');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
 const entriesService = require('../src/journalEntries/entries-service');
+const ObservationsService = require('../src/observations/observations-service');
+
+const {serializeObservation} = ObservationsService
 
 describe('App', () => {
   it('GET / responds with 200 containing "Hello, world!"', () => {
@@ -40,12 +43,23 @@ describe('data endpoints', () => {
       it('responds with 200 and all entries for user', () => {
         const entries = makeEntries();
         const expectedEntries = entries.map((entry) => {
-        
           return entriesService.serializeEntry(entry);
         });
         return supertest(app)
           .get(`/api/entries/${userid}`)
           .expect(200, expectedEntries);
+      });
+    });
+    describe.only('GET /api/observations/:userId', () => {
+      it('responds with 200 and all observations for the user', () => {
+        console.log(ObservationsService)
+        const obs = makeObservations();
+        const expObs = obs.map((ob) =>
+          serializeObservation(ob)
+        );
+        return supertest(app)
+          .get(`/api/observations/${userid}`)
+          .expect(200, expObs);
       });
     });
   });

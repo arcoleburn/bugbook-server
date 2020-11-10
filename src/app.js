@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 const entriesRouter = require('./journalEntries/entries-router');
 const EntriesService = require('./journalEntries/entries-service');
+const ObservationsService = require('./observations/observations-service');
 const app = express();
 
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
@@ -24,11 +25,28 @@ app.get('/api/entries/:userId', (req, res, next) => {
   ).then((entries) =>
     res.json(
       entries.map((entry) => {
-        console.log('entry from get', EntriesService.serializeEntry(entry));
+        console.log(
+          'entry from get',
+          EntriesService.serializeEntry(entry)
+        );
         return EntriesService.serializeEntry(entry);
       })
     )
   );
+});
+
+app.get('/api/observations/:userId', (req, res, next) => {
+  ObservationsService.getObservationsForUser(
+    req.app.get('db'),
+    req.params.userId
+  ).then((observations) => {
+   console.log(observations)
+   return res.json(
+      observations.map((obs) =>
+        ObservationsService.serializeObservation(obs)
+      )
+    );
+  });
 });
 
 app.get('/', (req, res) => {
