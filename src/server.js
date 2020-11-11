@@ -15,6 +15,6 @@ app.set('db', db);
 
 app.listen(PORT, () => {
   console.log(
-    `Server listening in ${NODE_ENV} at http://localhost:${PORT}`
+    `Server listening in ${NODE_ENV} at http://localhost:${PORT}....db url is ${DB_URL} `
   );
 });

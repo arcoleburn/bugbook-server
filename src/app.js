@@ -8,8 +8,12 @@ const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 const EntriesService = require('./journalEntries/entries-service');
 const ObservationsService = require('./observations/observations-service');
+const {
+  serializeEntry,
+} = require('./journalEntries/entries-service');
 const app = express();
 
+const jsonParser = express.json();
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
 
 app.use(morgan(morganOption));
@@ -47,6 +51,43 @@ app.get('/api/observations/:userId', (req, res, next) => {
     );
   });
 });
+
+app.post('/api/entries/:userId', jsonParser, (req, res, next) => {
+  const { day_rating, deep_hours, journal_entry } = req.body;
+  const userId = req.params.userId;
+  const newEntry = {
+    day_rating,
+    deep_hours,
+    journal_entry,
+    user_id: userId,
+  };
+
+  for (const [key, value] of Object.entries(newEntry))
+    if (value == null)
+      return res
+        .status(400)
+        .json({ error: { message: `Missing ${key} in request` } });
+
+  EntriesService.insertEntry(req.app.get('db'), newEntry, userId)
+    .then((entry) => {
+      res
+        .status(201)
+        .location(`/api/entries/${userId}/${entry.id}`)
+        .json(serializeEntry(entry));
+    })
+    .catch(next);
+});
+app.post(
+  '/api/observations/:userId',
+  jsonParser,
+  (req, res, next) => {
+    const { newObs } = req.body;
+    const userId = req.params.userId;
+    const newObservation = { newObs, userId };
+
+    res.status(201).send('stuff');
+  }
+);
 
 app.get('/', (req, res) => {
   res.send('Hello, world!');

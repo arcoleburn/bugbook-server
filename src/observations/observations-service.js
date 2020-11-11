@@ -8,6 +8,17 @@ const ObservationsService = {
       .select('*')
       .where('user_id', userId);
   },
+  insertObservation(db, newObs, userId) {
+    console.log('insert obs from services ran')
+    return db
+      .insert(newObs)
+      .into('observations')
+      .returning('*')
+      .where('user_Id', userId)
+      .then((rows) => {
+        return rows[0];
+      });
+  },
   serializeObservation(obs) {
     return {
       id: obs.id,

@@ -5,6 +5,7 @@ const app = require('../src/app');
 const helpers = require('./test-helpers');
 const entriesService = require('../src/journalEntries/entries-service');
 const ObservationsService = require('../src/observations/observations-service');
+const { expect } = require('chai');
 
 const { serializeObservation } = ObservationsService;
 
@@ -61,14 +62,34 @@ describe('data endpoints', () => {
           .expect(200, expObs);
       });
     });
+    describe('POST /api/enrtries/:userId', () => {
+      it('creates entry and responds with 201 and new entry', function () {
+        const newEntry = {
+          day_rating: 2,
+          deep_hours: 5,
+          journal_entry: 'test journal entry text',
+          user_id: userid,
+        };
+        console.log(newEntry);
+        return supertest(app)
+          .post(`/api/entries/${userid}`)
+          .send(newEntry)
+          .expect(201)
+          .expect((res) => {
+            expect(res.body.day_rating).to.eql(newEntry.day_rating);
+            expect(res.body.deep_hours).to.eql(newEntry.deep_hours);
+            expect(res.body.journal_entry).to.eql(
+              newEntry.journal_entry
+            );
+            expect(res.body.user_id).to.eql(userid);
+            expect(res.body).to.have.property('id');
+          });
+      });
+    });
+    describe('POST /api/observations/:userId', () => {
+      it('creates observation and responds with 201 and new observation', function () {
+        return supertest(app).post(`/api/observations/${userid}`).expect(201);
+      });
+    });
   });
-  context('given there is no data in db', ()=> {
-  describe('POST /api/enrtries/:userId', () => {
-    it('creates entry and responds with 201 and new entry', function(){
-      const newEntry = 
-
-    })
-  })
-
-  //})
 });
