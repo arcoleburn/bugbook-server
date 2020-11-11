@@ -6,7 +6,6 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
-const entriesRouter = require('./journalEntries/entries-router');
 const EntriesService = require('./journalEntries/entries-service');
 const ObservationsService = require('./observations/observations-service');
 const app = express();
@@ -40,8 +39,8 @@ app.get('/api/observations/:userId', (req, res, next) => {
     req.app.get('db'),
     req.params.userId
   ).then((observations) => {
-   console.log(observations)
-   return res.json(
+    console.log(observations);
+    return res.json(
       observations.map((obs) =>
         ObservationsService.serializeObservation(obs)
       )

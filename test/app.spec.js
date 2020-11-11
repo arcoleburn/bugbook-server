@@ -6,7 +6,7 @@ const helpers = require('./test-helpers');
 const entriesService = require('../src/journalEntries/entries-service');
 const ObservationsService = require('../src/observations/observations-service');
 
-const {serializeObservation} = ObservationsService
+const { serializeObservation } = ObservationsService;
 
 describe('App', () => {
   it('GET / responds with 200 containing "Hello, world!"', () => {
@@ -32,12 +32,14 @@ describe('data endpoints', () => {
   after('disconnect db', () => db.destroy());
 
   before('cleanup', () => cleanTables(db));
+
   afterEach('cleanup', () => cleanTables(db));
 
   context('given there is data in db', () => {
-    beforeEach('insert users, entries, and observations', () => {
-      seedTables(db, makeUsers(), makeEntries(), makeObservations());
-    });
+    beforeEach('insert users, entries, and observations', () =>
+      seedTables(db, makeUsers(), makeEntries(), makeObservations())
+    );
+    afterEach('cleanup', () => cleanTables(db));
 
     describe('GET /api/entries/:userid', () => {
       it('responds with 200 and all entries for user', () => {
@@ -50,17 +52,23 @@ describe('data endpoints', () => {
           .expect(200, expectedEntries);
       });
     });
-    describe.only('GET /api/observations/:userId', () => {
+    describe('GET /api/observations/:userId', () => {
       it('responds with 200 and all observations for the user', () => {
-        console.log(ObservationsService)
         const obs = makeObservations();
-        const expObs = obs.map((ob) =>
-          serializeObservation(ob)
-        );
+        const expObs = obs.map((ob) => serializeObservation(ob));
         return supertest(app)
           .get(`/api/observations/${userid}`)
           .expect(200, expObs);
       });
     });
   });
+  context('given there is no data in db', ()=> {
+  describe('POST /api/enrtries/:userId', () => {
+    it('creates entry and responds with 201 and new entry', function(){
+      const newEntry = 
+
+    })
+  })
+
+  //})
 });
