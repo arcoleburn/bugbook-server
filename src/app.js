@@ -7,6 +7,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 const EntriesService = require('./journalEntries/entries-service');
+const entriesRouter = require('../src/journalEntries/entries-router');
 const ObservationsService = require('./observations/observations-service');
 const {
   serializeEntry,
@@ -23,23 +24,9 @@ app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
 
-app.get('/api/entries/:userId', (req, res, next) => {
-  console.log('req params line 26', req.params);
-  EntriesService.getEntriesForUser(
-    req.app.get('db'),
-    req.params.userId
-  ).then((entries) =>
-    res.json(
-      entries.map((entry) => {
-        // console.log(
-        //   'entry from get',
-        //   EntriesService.serializeEntry(entry)
-        // );
-        return EntriesService.serializeEntry(entry);
-      })
-    )
-  );
-});
+app.use('/api/entries', entriesRouter);
+
+
 
 app.get('/api/observations/:userId', (req, res, next) => {
   ObservationsService.getObservationsForUser(
@@ -55,40 +42,14 @@ app.get('/api/observations/:userId', (req, res, next) => {
   });
 });
 
-app.post('/api/entries/:userId', jsonParser, (req, res, next) => {
-  const { day_rating, deep_hours, journal_entry } = req.body;
-  const userId = req.params.userId;
-  console.log('req params', req.params)
-  console.log("req body: ", req.body)
-  const newEntry = {
-    day_rating,
-    deep_hours,
-    journal_entry,
-    user_id: userId,
-  };
 
-  for (const [key, value] of Object.entries(newEntry))
-    if (value == null)
-      return res
-        .status(400)
-        .json({ error: { message: `Missing ${key} in request` } });
-
-  EntriesService.insertEntry(req.app.get('db'), newEntry, userId)
-    .then((entry) => {
-      res
-        .status(201)
-        .location(`/api/entries/${userId}/${entry.id}`)
-        .json(serializeEntry(entry));
-    })
-    .catch(next);
-});
 app.post(
   '/api/observations/:userId',
   jsonParser,
   (req, res, next) => {
     console.log('req body', req.body);
     const { observation } = req.body;
-    console.log(observation)
+    console.log(observation);
     const userId = req.params.userId;
     const newObservation = { observation, user_id: userId };
 
