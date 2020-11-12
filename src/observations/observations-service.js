@@ -1,6 +1,5 @@
 'use strict';
 
-
 const ObservationsService = {
   getObservationsForUser(db, userId) {
     return db
@@ -9,7 +8,7 @@ const ObservationsService = {
       .where('user_id', userId);
   },
   insertObservation(db, newObs, userId) {
-    console.log('insert obs from services ran')
+    console.log('insert obs from services ran');
     return db
       .insert(newObs)
       .into('observations')
@@ -29,4 +28,4 @@ const ObservationsService = {
   },
 };
 
-module.exports = ObservationsService ;
+module.exports = ObservationsService;

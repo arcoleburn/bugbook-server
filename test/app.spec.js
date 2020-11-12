@@ -42,7 +42,8 @@ describe('data endpoints', () => {
     );
     afterEach('cleanup', () => cleanTables(db));
 
-    describe('GET /api/entries/:userid', () => {
+    describe('GET /api/entries/:userid', function () {
+      this.retries(3);
       it('responds with 200 and all entries for user', () => {
         const entries = makeEntries();
         const expectedEntries = entries.map((entry) => {
@@ -88,7 +89,22 @@ describe('data endpoints', () => {
     });
     describe('POST /api/observations/:userId', () => {
       it('creates observation and responds with 201 and new observation', function () {
-        return supertest(app).post(`/api/observations/${userid}`).expect(201);
+        const newObservation = {
+          observation: 'this is a test observation',
+          user_id: userid,
+        };
+
+        return supertest(app)
+          .post(`/api/observations/${userid}`)
+          .send(newObservation)
+          .expect(201)
+          .expect((res) => {
+            expect(res.body.observation).to.eql(
+              newObservation.observation
+            );
+            expect(res.body.user_id).to.eql(userid);
+            expect(res.body).to.have.property('id');
+          });
       });
     });
   });

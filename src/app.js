@@ -11,6 +11,9 @@ const ObservationsService = require('./observations/observations-service');
 const {
   serializeEntry,
 } = require('./journalEntries/entries-service');
+const {
+  serializeObservation,
+} = require('./observations/observations-service');
 const app = express();
 
 const jsonParser = express.json();
@@ -21,17 +24,17 @@ app.use(helmet());
 app.use(cors());
 
 app.get('/api/entries/:userId', (req, res, next) => {
-  console.log(req.params);
+  console.log('req params line 26', req.params);
   EntriesService.getEntriesForUser(
     req.app.get('db'),
     req.params.userId
   ).then((entries) =>
     res.json(
       entries.map((entry) => {
-        console.log(
-          'entry from get',
-          EntriesService.serializeEntry(entry)
-        );
+        // console.log(
+        //   'entry from get',
+        //   EntriesService.serializeEntry(entry)
+        // );
         return EntriesService.serializeEntry(entry);
       })
     )
@@ -55,6 +58,8 @@ app.get('/api/observations/:userId', (req, res, next) => {
 app.post('/api/entries/:userId', jsonParser, (req, res, next) => {
   const { day_rating, deep_hours, journal_entry } = req.body;
   const userId = req.params.userId;
+  console.log('req params', req.params)
+  console.log("req body: ", req.body)
   const newEntry = {
     day_rating,
     deep_hours,
@@ -81,11 +86,22 @@ app.post(
   '/api/observations/:userId',
   jsonParser,
   (req, res, next) => {
-    const { newObs } = req.body;
+    console.log('req body', req.body);
+    const { observation } = req.body;
+    console.log(observation)
     const userId = req.params.userId;
-    const newObservation = { newObs, userId };
+    const newObservation = { observation, user_id: userId };
 
-    res.status(201).send('stuff');
+    ObservationsService.insertObservation(
+      req.app.get('db'),
+      newObservation,
+      userId
+    ).then((obs) => {
+      res
+        .status(201)
+        .location(`/api/observations/${userId}/${obs.id}`)
+        .json(serializeObservation(obs));
+    });
   }
 );
 
