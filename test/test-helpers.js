@@ -1,4 +1,7 @@
 'use strict';
+
+const bcrypt = require('bcryptjs');
+
 function makeUsers() {
   return [
     {
@@ -113,9 +116,24 @@ function makeObservations() {
   ];
 }
 
+function seedUsers(db, users) {
+  const preppedUsers = makeUsers().map((user) => ({
+    ...user,
+    password: bcrypt.hashSync(user.password, 1),
+  }));
+  return db
+    .into('users')
+    .insert(preppedUsers)
+    .then(() =>
+      db.raw(`SELECT setval ('users_id_seq', ?)`, [
+        users[users.length - 1].id,
+      ])
+    );
+}
+
 function seedTables(db, users, entries, observations) {
   return db.transaction(async (trx) => {
-    await trx.into('users').insert(users);
+    await seedUsers(trx, users)
     await trx.into('journal_data').insert(entries);
     await trx.into('observations').insert(observations);
   });
@@ -133,4 +151,5 @@ module.exports = {
   makeObservations,
   seedTables,
   cleanTables,
+  seedUsers
 };

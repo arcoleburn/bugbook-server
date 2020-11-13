@@ -2,12 +2,13 @@
 
 const express = require('express');
 const EntriesService = require('./entries-service');
-
+const { requireAuth } = require('../../src/middleware/jwt-auth')
 const entriesRouter = express.Router();
 const jsonParser = express.json();
 
 entriesRouter
   .route('/:userId')
+  .all(requireAuth)
   .get((req, res, next) => {
     EntriesService.getEntriesForUser(
       req.app.get('db'),

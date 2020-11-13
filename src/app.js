@@ -7,8 +7,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
 const entriesRouter = require('../src/journalEntries/entries-router');
-const observationsRouter = require('./observations/observations-router')
-
+const observationsRouter = require('./observations/observations-router');
+const authRouter = require('./auth/auth-router');
 
 const app = express();
 
@@ -20,7 +20,7 @@ app.use(cors());
 
 app.use('/api/entries', entriesRouter);
 app.use('/api/observations', observationsRouter);
-
+app.use('/api/auth', authRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello, world!');
@@ -32,7 +32,7 @@ app.use(function errorHandler(error, req, res, next) {
     response = { error: { message: 'server error' } };
   } else {
     console.log(error);
-    response = { message: error.messager, error };
+    response = { message: `this is the message: ${error.message}`, error };
   }
   res.status(500).json(response);
 });

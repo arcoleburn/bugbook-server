@@ -8,16 +8,16 @@ truncate
 
 Insert into users (username, password, email, first_name)
 values
-   ('mlambole0', 'z0FepAd', 'mfish0@wsj.com', 'Menard'),
-   ('tfalshaw1', 'gLq7Rst0QYTL', 'tposkitt1@disqus.com', 'Timmie'),
-   ('rplayfoot2', 'nvWmWsLJjqTp', 'rmcvicar2@oracle.com', 'Rhianon'),
-   ('imechi3', 'qVl2RoSpSeOU', 'ihulme3@yolasite.com', 'Isis'),
-   ('varlidge4', 'a87p13UIe', 'vhatchell4@nyu.edu', 'Vincent'),
-   ('scocks5', 'TgdiEB', 'sdumbelton5@rambler.ru', 'Smitty'),
-   ('moscully6', '1aiwxb', 'mpreator6@twitter.com', 'Mommy'),
-   ('bgogerty7', 'xiVjkGowhWt', 'bchittim7@symantec.com', 'Bertrand'),
-   ('iescalero8', 'xPcqIzu', 'iarnhold8@seattletimes.com', 'Isidoro'),
-   ('nskells9', 'w64s9N', 'nstivens9@ed.gov', 'Ned');
+   ('mlambole0', '$2a$10$jSkStyzY9m6VJLOIWnSv3uLBbmmD4.Es/icrbxVjWzvXAM75Wpslq', 'mfish0@wsj.com', 'Menard'),
+   ('tfalshaw1', '$2a$10$F2vF1NjsMuwJKNG1peyQru.yZG1TfNe7NieNT5tPzH8I5zFD9d9g2', 'tposkitt1@disqus.com', 'Timmie'),
+   ('rplayfoot2', '$2a$10$3BG7gR.q3lNe2.zMbNLVaOD/Vd7qRWnaXCS9FwMIB26/WA9XgWgUO', 'rmcvicar2@oracle.com', 'Rhianon'),
+   ('imechi3', '$2a$10$4.Gw4SdpwSjocKpgbF/QlexobMPI5VJGjdANzUv2.h8pnwffzG3SS', 'ihulme3@yolasite.com', 'Isis'),
+   ('varlidge4', '$2a$10$BgpL9TcBp3/5WpsfAHEmRO/8Rv0kSxvB3hhZHqT3UtMpxgeSBZl1q', 'vhatchell4@nyu.edu', 'Vincent'),
+   ('scocks5', '$2a$10$56lnc9E5h9WKZEnSiCsNUO5EbDuzzGNqj28Aj/T67MHK3VEYscDuW', 'sdumbelton5@rambler.ru', 'Smitty'),
+   ('moscully6', '$2a$10$jwGwoasuyV1JABogEjVzyuRnZu3wLnbg0TxjWTbM6LtD.v/H1kWre', 'mpreator6@twitter.com', 'Mommy'),
+   ('bgogerty7', '$2a$10$J5U85JdsbTOFsmB.H790LuWWBxXWpdEVn/D2DfDFyPF0.GtbsDhzS', 'bchittim7@symantec.com', 'Bertrand'),
+   ('iescalero8', '$2a$10$HtoZ.YDDQFKkAZuFxl4Maehpxnz5SdU6sN5mawZM4HL1jP.LbqqAe', 'iarnhold8@seattletimes.com', 'Isidoro'),
+   ('nskells9', '$2a$10$1pCNr4qjDJqHFiWeG3mkg.7XfxZjwmaIiH2vGoWqlihj3OP7OumCW', 'nstivens9@ed.gov', 'Ned');
 
 Insert into journal_data (date_created, day_rating, deep_hours, journal_entry, user_id)
 values

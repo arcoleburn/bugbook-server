@@ -24,6 +24,7 @@ describe('data endpoints', () => {
     makeObservations,
     seedTables,
     cleanTables,
+    seedUsers
   } = helpers;
 
   before('make knex instance', () => {
