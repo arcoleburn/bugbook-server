@@ -8,7 +8,6 @@ const ObservationsService = {
       .where('user_id', userId);
   },
   insertObservation(db, newObs, userId) {
-    console.log('insert obs from services ran');
     return db
       .insert(newObs)
       .into('observations')
@@ -27,7 +26,6 @@ const ObservationsService = {
     };
   },
   delObservation(db, id) {
-    console.log('obs del ran with:', id)
     return db('observations').where({ id }).delete();
   },
 };

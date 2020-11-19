@@ -72,7 +72,6 @@ describe('data endpoints', () => {
           journal_entry: 'test journal entry text',
           user_id: userid,
         };
-        console.log(newEntry);
         return supertest(app)
           .post(`/api/entries/${userid}`)
           .send(newEntry)

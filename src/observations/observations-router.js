@@ -14,7 +14,6 @@ observationsRouter
       req.app.get('db'),
       req.user.id
     ).then((observations) => {
-      console.log(observations);
       return res.json(
         observations.map((obs) =>
           ObservationsService.serializeObservation(obs)
@@ -23,9 +22,7 @@ observationsRouter
     });
   })
   .post(jsonParser, (req, res, next) => {
-    console.log('req body', req.body);
     const { observation } = req.body;
-    console.log(observation);
     const userId = req.user.id;
     const newObservation = { observation, user_id: userId };
 

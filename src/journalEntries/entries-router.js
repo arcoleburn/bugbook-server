@@ -40,7 +40,7 @@ entriesRouter
 
     EntriesService.insertEntry(req.app.get('db'), newEntry, userId)
       .then((entry) => {
-        console.log('entry', entry);
+        
         res
           .status(201)
           .location(`/api/entries/${userId}/${entry.id}`) //change
@@ -53,9 +53,6 @@ entriesRouter
   .route('/:id')
   .all(requireAuth)
   .delete((req, res, next) => {
-    console.log('del entry endpt hit');
-
-    console.log('body', req.params);
     EntriesService.deleteEntry(req.app.get('db'), req.params.id)
       .then((numRowsAffected) => {
         res.status(204).end();

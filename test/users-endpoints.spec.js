@@ -7,7 +7,7 @@ const supertest = require('supertest');
 const app = require('../src/app');
 const helpers = require('./test-helpers');
 
-describe.only('Users endpoints', function () {
+describe('Users endpoints', function () {
   let db;
 
   const { testUsers } = helpers.makeUsers();
@@ -93,13 +93,11 @@ describe.only('Users endpoints', function () {
           email: 'email',
           first_name: 'john',
         };
-        console.log('new user in happy path test', newUser)
         return supertest(app)
           .post('/api/users')
           .send(newUser)
           .expect(201)
           .expect((res) => {
-            console.log('res body of test', res.body);
             expect(res.body).to.have.property('id');
             expect(res.body.username).to.eql(newUser.username);
             expect(res.body.email).to.eql(newUser.email);

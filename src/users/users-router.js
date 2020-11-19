@@ -8,7 +8,6 @@ const UsersService = require('./users-service');
 
 usersRouter.post('/', jsonBodyParser, (req, res, next) => {
   const { password, username, email, first_name } = req.body;
-  console.log('req body in router', req.body)
   for (const field of ['username', 'password', 'email', 'first_name'])
     if (!req.body[field])
       return res
@@ -38,7 +37,6 @@ usersRouter.post('/', jsonBodyParser, (req, res, next) => {
             email,
             first_name,
           };
-          console.log('new user from router', newUser)
           return UsersService.insertUser(
             req.app.get('db'),
             newUser
