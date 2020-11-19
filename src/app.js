@@ -9,7 +9,7 @@ const { NODE_ENV } = require('./config');
 const entriesRouter = require('../src/journalEntries/entries-router');
 const observationsRouter = require('./observations/observations-router');
 const authRouter = require('./auth/auth-router');
-
+const usersRouter = require('../src/users/users-router')
 const app = express();
 
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
@@ -21,6 +21,7 @@ app.use(cors());
 app.use('/api/entries', entriesRouter);
 app.use('/api/observations', observationsRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/users', usersRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello, world!');

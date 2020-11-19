@@ -2,16 +2,17 @@
 
 const express = require('express');
 const ObservationsService = require('./observations-service');
-
+const { requireAuth } = require('../middleware/jwt-auth');
 const observationsRouter = express.Router();
 const jsonParser = express.json();
 
 observationsRouter
-  .route('/:userId')
+  .route('/')
+  .all(requireAuth)
   .get((req, res, next) => {
     ObservationsService.getObservationsForUser(
       req.app.get('db'),
-      req.params.userId
+      req.user.id
     ).then((observations) => {
       console.log(observations);
       return res.json(
@@ -25,7 +26,7 @@ observationsRouter
     console.log('req body', req.body);
     const { observation } = req.body;
     console.log(observation);
-    const userId = req.params.userId;
+    const userId = req.user.id;
     const newObservation = { observation, user_id: userId };
 
     ObservationsService.insertObservation(
@@ -38,6 +39,19 @@ observationsRouter
         .location(`/api/observations/${userId}/${obs.id}`)
         .json(ObservationsService.serializeObservation(obs));
     });
+  });
+observationsRouter
+  .route('/:id')
+  .all(requireAuth)
+  .delete((req, res, next) => {
+    ObservationsService.delObservation(
+      req.app.get('db'),
+      req.params.id
+    )
+      .then((numRowsAffected) => {
+        res.status(204).end();
+      })
+      .catch(next);
   });
 
 module.exports = observationsRouter;

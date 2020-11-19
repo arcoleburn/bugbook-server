@@ -26,6 +26,10 @@ const ObservationsService = {
       observation: obs.observation,
     };
   },
+  delObservation(db, id) {
+    console.log('obs del ran with:', id)
+    return db('observations').where({ id }).delete();
+  },
 };
 
 module.exports = ObservationsService;
