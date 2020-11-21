@@ -22,7 +22,7 @@ const EntriesService = {
   serializeEntry(entry) {
     return {
       id: entry.id,
-      date_created: entry.date_created.toString(),
+      date_created: entry.date_created.toLocaleString('en-US', {timeZone: 'EST'}),
       day_rating: parseInt(entry.day_rating),
       deep_hours: parseFloat(entry.deep_hours),
       journal_entry: entry.journal_entry,
@@ -30,7 +30,7 @@ const EntriesService = {
     };
   },
   deleteEntry(db, id){
-    return db('journal_data').where({id}).delete()
+    return db('journal_data').where({id}).delete();
   },
   updateEntry(db, id, updatedEntry){
     return db('journal_data').where({id}).update(updatedEntry).returning('*').then((rows) => {
