@@ -1,4 +1,6 @@
 'use strict';
+/*TO DOs */
+// need to find a way to block demo account from actually changing anything without having to alter too much code
 
 const express = require('express');
 const EntriesService = require('./entries-service');
@@ -16,6 +18,9 @@ entriesRouter
     ).then((entries) =>
       res.json(
         entries.map((entry) => {
+          console.log('entry date before serial,', entry)
+          console.log('entry date', EntriesService.serializeEntry(entry));
+          
           return EntriesService.serializeEntry(entry);
         })
       )

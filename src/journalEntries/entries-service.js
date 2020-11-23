@@ -22,7 +22,7 @@ const EntriesService = {
   serializeEntry(entry) {
     return {
       id: entry.id,
-      date_created: entry.date_created.toLocaleString('en-US', {timeZone: 'EST'}),
+      date_created: new Date(entry.date_created),
       day_rating: parseInt(entry.day_rating),
       deep_hours: parseFloat(entry.deep_hours),
       journal_entry: entry.journal_entry,

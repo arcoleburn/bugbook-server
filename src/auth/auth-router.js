@@ -41,7 +41,7 @@ authRouter.post('/login', jsonBodyParser, (req, res, next) => {
           userId: dbUser.id,
           firstName: dbUser.first_name,
         };
-        res.send({
+        res.send( {
           authToken: AuthService.createJwt(sub, payload),
           userId: dbUser.id,
           firstName: dbUser.first_name,
