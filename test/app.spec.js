@@ -6,6 +6,7 @@ const helpers = require('./test-helpers');
 const entriesService = require('../src/journalEntries/entries-service');
 const ObservationsService = require('../src/observations/observations-service');
 const { expect } = require('chai');
+const AuthService = require('../src/auth/auth-service');
 
 const { serializeObservation } = ObservationsService;
 
@@ -24,7 +25,7 @@ describe('data endpoints', () => {
     makeObservations,
     seedTables,
     cleanTables,
-    seedUsers
+    seedUsers,
   } = helpers;
 
   before('make knex instance', () => {

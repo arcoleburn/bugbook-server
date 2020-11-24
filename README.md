@@ -1,26 +1,44 @@
-# Express Boilerplate!
+# BugBook Journal (Server)
 
-This is a boilerplate project used for starting new projects!
+App Live at https://bugbookjournal.com
 
-## Set up
+## Public Endpoints 
+- POST /login
+    - supplied with valid login credentials, will return JWT 
+- POST /users
+    - registers a new user to the server 
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+## Private Endpoints (require registration)
 
-## Scripts
+### Entries
+- GET /entries
+   - returns all daily entries for the logged in user
+- POST /entries
+    - posts a new daily entry for the logged in user to the server
+- PATCH /entries/:id
+    - updates specified daily entry for the logged in user
+- DELETE /entries/:id
+    - deletes specified daily entry for the logged in user
 
-Start the application `npm start`
 
-Start nodemon for the application `npm run dev`
+### Observations 
+- GET /observations
+    - returns all observations for the logged in user
+- POST /observations
+    - posts a new observation for the logged in user
+- DELETE /observation/:id
+    - deletes specified observatoin for the logged in user. 
 
-Run the tests `npm test`
 
-## Deploying
+## Technology Used 
+- Express
+- Knex
+- PostgreSQL
+- CORS 
+- Helmet
+- bcrpyt 
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+
+Hosted on Heroku
+
