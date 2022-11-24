@@ -1,6 +1,6 @@
 # BugBook Journal (Server)
 
-App Live at https://bugbookjournal.com
+App Live at https://bugbookjournal.com  NOTE: Due to Heroku deprecating their free tier, the live app is currently broken
 
 ## Public Endpoints 
 - POST /login
